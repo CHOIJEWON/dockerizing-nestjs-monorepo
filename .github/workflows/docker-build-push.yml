@@ -52,3 +52,39 @@ jobs:
           docker tag dockerizing-monorepo-auth-api:latest choijewon/dockerizing-nestjs-monorepo-auth-api:latest
           docker push choijewon/dockerizing-nestjs-monorepo-auth-api:latest
           docker tag monorepo-cats-api
+
+      - name: Deploy to dev
+        uses: appleboy/ssh-action@master
+        id: deploy-dev
+        if: contains(github.ref, 'main')
+        with:
+          host: ${{ secrets.HOST_DEV }} # EC2 퍼블릭 IPv4 DNS
+          username: ${{ secrets.USERNAME }} # ubuntu
+          port: 22
+          key: ${{ secrets.PRIVATE_KEY }}
+          script: |
+            # auth-api 배포를 확인하는 조건문
+            if echo "${{ github.event.head_commit.message }}" | grep -q "[auth-api]"; then
+              echo "Deploying auth-api..."
+              # auth-api 컨테이너 중지 및 제거
+              sudo docker stop auth-api || true
+              sudo docker rm auth-api || true
+              # 최신 auth-api 이미지 가져오기
+              sudo docker pull ${{ secrets.DOCKER_USERNAME }}/dockerizing-nestjs-monorepo-auth-api:latest
+              # 새로운 auth-api 컨테이너 실행
+              sudo docker run -d --name auth-api -p 3300:3300 ${{ secrets.DOCKER_USERNAME }}/dockerizing-nestjs-monorepo-auth-api:latest
+            # cats-api 배포를 확인하는 조건문
+            elif echo "${{ github.event.head_commit.message }}" | grep -q "[cat-api]"; then
+              echo "Deploying cats-api..."
+              # cats-api 컨테이너 중지 및 제거
+              sudo docker stop cats-api || true
+              sudo docker rm cats-api || true
+              # 최신 cats-api 이미지 가져오기
+              sudo docker pull ${{ secrets.DOCKER_USERNAME }}/dockerizing-nestjs-monorepo-cats-api:latest
+              # 새로운 cats-api 컨테이너 실행
+              sudo docker run -d --name cats-api -p 3000:3000 ${{ secrets.DOCKER_USERNAME }}/dockerizing-nestjs-monorepo-cats-api:latest
+            else
+              echo "No specific API deployment keyword found in the commit message."
+            fi
+            # 사용하지 않는 이미지를 정리
+            sudo docker image prune -f
