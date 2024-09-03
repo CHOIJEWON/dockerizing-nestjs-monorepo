@@ -7,6 +7,6 @@ export class AuthApiService {
   }
 
   getTest(): string {
-    return 'Hello Test!';
+    return 'Hello Test Auth On Docker';
   }
 }
