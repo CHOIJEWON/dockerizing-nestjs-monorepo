@@ -9,4 +9,9 @@ export class AuthApiController {
   getHello(): string {
     return this.authApiService.getHello();
   }
+
+  @Get('test')
+  getTest(): string {
+    return this.authApiService.getTest();
+  }
 }
