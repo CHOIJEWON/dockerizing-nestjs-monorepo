@@ -35,20 +35,20 @@ jobs:
         if: contains(github.event.head_commit.message, '[auth-api]')
         run: |
           docker compose build auth-api
-          docker tag monorepo-auth-api:latest choijewon/dockerizing-nestjs-monorepo-auth-api:latest
+          docker tag dockerizing-nestjs-monorepo-auth-api:latest choijewon/dockerizing-nestjs-monorepo-auth-api:latest
           docker push choijewon/dockerizing-nestjs-monorepo-auth-api:latest
 
       - name: Build and Push Cat API
         if: contains(github.event.head_commit.message, '[cat-api]')
         run: |
           docker compose build cats-api
-          docker tag monorepo-cats-api:latest choijewon/dockerizing-nestjs-monorepo-cats-api:latest
+          docker tag dockerizing-nestjs-monorepo-cats-api:latest choijewon/dockerizing-nestjs-monorepo-cats-api:latest
           docker push choijewon/dockerizing-nestjs-monorepo-cats-api:latest
 
       - name: Build and Push All
         if: contains(github.event.head_commit.message, '[All]')
         run: |
           docker compose build
-          docker tag monorepo-auth-api:latest choijewon/dockerizing-nestjs-monorepo-auth-api:latest
+          docker tag dockerizing-monorepo-auth-api:latest choijewon/dockerizing-nestjs-monorepo-auth-api:latest
           docker push choijewon/dockerizing-nestjs-monorepo-auth-api:latest
           docker tag monorepo-cats-api
