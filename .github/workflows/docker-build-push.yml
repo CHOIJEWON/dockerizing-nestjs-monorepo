@@ -5,8 +5,14 @@ on:
     branches:
       - main
     paths:
-      - '/apps/auth-api/**'
-      - '/apps/cats/**'
+      - 'apps/auth-api/**'
+      - 'apps/cats/**'
+  pull_request:
+    branches:
+      - main  # PR이 main 브랜치로 병합될 때 실행합니다.
+    paths:
+      - 'apps/auth-api/**'
+      - 'apps/cats/**'
 
 jobs:
   build:
@@ -46,5 +52,4 @@ jobs:
           docker-compose build
           docker tag monorepo-auth-api:latest choijewon/dockerizing-nestjs-monorepo-auth-api:latest
           docker push choijewon/dockerizing-nestjs-monorepo-auth-api:latest
-          docker tag monorepo-cats-api:latest choijewon/dockerizing-nestjs-monorepo-cats-api:latest
-          docker push choijewon/dockerizing-nestjs-monorepo-cats-api:latest
+          docker tag monorepo-cats-api
