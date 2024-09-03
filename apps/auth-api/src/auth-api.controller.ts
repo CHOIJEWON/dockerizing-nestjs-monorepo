@@ -10,7 +10,7 @@ export class AuthApiController {
     return this.authApiService.getHello();
   }
 
-  @Get('test6')
+  @Get('test7')
   getTest(): string {
     return this.authApiService.getTest();
   }
