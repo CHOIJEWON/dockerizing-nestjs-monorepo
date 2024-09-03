@@ -58,7 +58,7 @@ jobs:
           key: ${{ secrets.PRIVATE_KEY }}
           script: |
             # auth-api 배포를 확인하는 조건문
-            if echo "${{ github.event.head_commit.message }}" | grep -q "[auth-api]"; then
+            if echo "${{ github.event.head_commit.message }}" | grep -i "[auth-api]"; then
               echo "Deploying auth-api..."
               # auth-api 컨테이너 중지 및 제거
               sudo docker stop auth-api || true
@@ -68,7 +68,7 @@ jobs:
               # 새로운 auth-api 컨테이너 실행
               sudo docker run -d --name auth-api -p 3300:3300 ${{ secrets.DOCKER_USERNAME }}/dockerizing-nestjs-monorepo-auth-api:latest
             # cats-api 배포를 확인하는 조건문
-            elif echo "${{ github.event.head_commit.message }}" | grep -q "[cat-api]"; then
+            elif echo "${{ github.event.head_commit.message }}" | grep -i "[cat-api]"; then
               echo "Deploying cats-api..."
               # cats-api 컨테이너 중지 및 제거
               sudo docker stop cats-api || true
