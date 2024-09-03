@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  auth-api:
+    container_name: monorepo-auth-api
+    build:
+      context: .
+      dockerfile: ./apps/auth-api/Dockerfile
+    ports:
+      - '3300:3300'
+    volumes:
+      - .:/src:cached
+  cats-api:
+    container_name: monorepo-cats-api
+    build:
+      context: .
+      dockerfile: ./apps/cats/Dockerfile
+    ports:
+      - '3000:3000'
+    volumes:
+      - .:/src:cached
