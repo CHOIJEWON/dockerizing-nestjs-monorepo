@@ -2,19 +2,23 @@ version: '3.8'
 
 services:
   auth-api:
+    platform: linux/amd64
     container_name: monorepo-auth-api
     build:
       context: .
       dockerfile: ./apps/auth-api/Dockerfile
+    image: auth-api:latest
     ports:
       - '3300:3300'
     volumes:
       - .:/src:cached
   cats-api:
+    platform: linux/amd64
     container_name: monorepo-cats-api
     build:
       context: .
       dockerfile: ./apps/cats/Dockerfile
+    image: cats-api:latest
     ports:
       - '3000:3000'
     volumes:
