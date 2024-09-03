@@ -57,28 +57,31 @@ jobs:
           port: 22
           key: ${{ secrets.PRIVATE_KEY }}
           script: |
-            # auth-api 배포를 확인하는 조건문
-            if echo "${{ github.event.head_commit.message }}" | grep -i "[auth-api]"; then
-              echo "Deploying auth-api..."
-              # auth-api 컨테이너 중지 및 제거
-              sudo docker stop auth-api || true
-              sudo docker rm auth-api || true
-              # 최신 auth-api 이미지 가져오기
-              sudo docker pull ${{ secrets.DOCKER_USERNAME }}/dockerizing-nestjs-monorepo-auth-api:latest
-              # 새로운 auth-api 컨테이너 실행
-              sudo docker run -d --name auth-api -p 3300:3300 ${{ secrets.DOCKER_USERNAME }}/dockerizing-nestjs-monorepo-auth-api:latest
-            # cats-api 배포를 확인하는 조건문
-            elif echo "${{ github.event.head_commit.message }}" | grep -i "[cat-api]"; then
-              echo "Deploying cats-api..."
-              # cats-api 컨테이너 중지 및 제거
-              sudo docker stop cats-api || true
-              sudo docker rm cats-api || true
-              # 최신 cats-api 이미지 가져오기
-              sudo docker pull ${{ secrets.DOCKER_USERNAME }}/dockerizing-nestjs-monorepo-cats-api:latest
-              # 새로운 cats-api 컨테이너 실행
-              sudo docker run -d --name cats-api -p 3000:3000 ${{ secrets.DOCKER_USERNAME }}/dockerizing-nestjs-monorepo-cats-api:latest
-            else
-              echo "No specific API deployment keyword found in the commit message."
-            fi
+            case "${{ github.event.head_commit.message }}" in
+              *"[auth-api]"*)
+                echo "Deploying auth-api..."
+                # auth-api 컨테이너 중지 및 제거
+                sudo docker stop auth-api || true
+                sudo docker rm auth-api || true
+                # 최신 auth-api 이미지 가져오기
+                sudo docker pull ${{ secrets.DOCKER_USERNAME }}/dockerizing-nestjs-monorepo-auth-api:latest
+                # 새로운 auth-api 컨테이너 실행
+                sudo docker run -d --name auth-api -p 3300:3300 ${{ secrets.DOCKER_USERNAME }}/dockerizing-nestjs-monorepo-auth-api:latest
+                ;;
+              *"[cat-api]"*)
+                echo "Deploying cats-api..."
+                # cats-api 컨테이너 중지 및 제거
+                sudo docker stop cats-api || true
+                sudo docker rm cats-api || true
+                # 최신 cats-api 이미지 가져오기
+                sudo docker pull ${{ secrets.DOCKER_USERNAME }}/dockerizing-nestjs-monorepo-cats-api:latest
+                # 새로운 cats-api 컨테이너 실행
+                sudo docker run -d --name cats-api -p 3000:3000 ${{ secrets.DOCKER_USERNAME }}/dockerizing-nestjs-monorepo-cats-api:latest
+                ;;
+              *)
+                echo "No specific API deployment keyword found in the commit message."
+                ;;
+            esac
+
             # 사용하지 않는 이미지를 정리
             sudo docker image prune -f
