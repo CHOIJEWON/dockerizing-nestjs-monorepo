@@ -14,4 +14,14 @@ export class AuthApiController {
   getTest(): string {
     return this.authApiService.getTest();
   }
+
+  @Get('test-env')
+  getTestEnv(): string {
+    return this.authApiService.getTestApi();
+  }
+
+  @Get('health')
+  getHealth(): string {
+    return this.authApiService.getHealth();
+  }
 }

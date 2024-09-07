@@ -9,4 +9,8 @@ export class AppService {
   getTest(): string {
     return 'github action success float source on docker';
   }
+
+  getHealth(): string {
+    return 'OK';
+  }
 }

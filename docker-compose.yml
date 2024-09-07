@@ -1,5 +1,7 @@
 version: '3.8'
 
+# linux amd64로 플랫폼을 정했기 때문에 ECS task 생성할 때 linux/X86_64로 운영체제/아키텍처를 정해주어야 됨 안 그러면 에러남
+
 services:
   auth-api:
     platform: linux/amd64
