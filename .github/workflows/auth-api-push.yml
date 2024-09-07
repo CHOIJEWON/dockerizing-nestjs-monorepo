@@ -72,3 +72,20 @@ jobs:
           service: ${{ secrets.ECS_SERVICE }}
           cluster: ${{ secrets.ECS_CLUSTER }}
           wait-for-service-stability: true
+
+      - name: 📢 Send Slack notification
+        if: always() # 항상 실행되도록 설정
+        uses: slackapi/slack-github-action@v1.17.0
+        with:
+          payload: |
+            {
+              "text": "CI/CD 작업이 완료되었습니다. ${GITHUB_REPOSITORY}의 ${GITHUB_REF}에서 작업이 수행되었습니다.",
+              "attachments": [
+                {
+                  "color": "${{ job.status == 'success' && 'good' || 'danger' }}",
+                  "text": "작업 상태: ${{ job.status }}"
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # Slack Webhook URL을 비밀로 설정
