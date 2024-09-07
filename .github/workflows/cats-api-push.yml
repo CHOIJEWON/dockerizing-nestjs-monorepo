@@ -1,4 +1,4 @@
-name: auth-api ci/cd boilerplate
+name: cats-api ci/cd boilerplate
 
 on:
   pull_request:
@@ -7,11 +7,11 @@ on:
     types:
       - closed
     paths:
-      - 'apps/auth-api/**'
+      - 'apps/cats-api/**'
 
 jobs:
   build_and_push:
-    if: github.event.pull_request.merged == true && contains(github.event.pull_request.title, '[auth-api]')
+    if: github.event.pull_request.merged == true && contains(github.event.pull_request.title, '[cats-api]')
     runs-on: ubuntu-latest
 
     steps:
@@ -36,9 +36,9 @@ jobs:
       - name: 🐳 Build, tag, and push image to Amazon ECR
         id: build-image
         env:
-          AUTH_IMAGE_NAME: ${{ secrets.AUTH_IMAGE_NAME }}
+          AUTH_IMAGE_NAME: ${{ secrets.CATS_IMAGE_NAME }}
           DEFAULT_IMAGE_TAG: ${{ secrets.DEFAULT_IMAGE_TAG }}
-          ECR_REGISTRY: ${{ secrets.AWS_ECR_AUTH_REGISTRY }}
+          ECR_REGISTRY: ${{ secrets.AWS_ECR_CATS_REGISTRY }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
           # Build a docker container and
@@ -51,7 +51,7 @@ jobs:
 
       - name: 📁 Retrieve existing task definition
         run: |
-          aws ecs describe-task-definition --task-definition ${{ secrets.AUTH_TASK_NAME }} --query 'taskDefinition' > task-definition.json
+          aws ecs describe-task-definition --task-definition ${{ secrets.CATS_TASK_NAME }} --query 'taskDefinition' > task-definition.json
 
       - name: 🧹 Remove 'compatibilities' from task definition
         run: |
@@ -62,14 +62,14 @@ jobs:
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: task-definition.json
-          container-name: ${{ secrets.AUTH_CONTAINER_NAME }}
+          container-name: ${{ secrets.CATS_CONTAINER_NAME }}
           image: ${{ steps.build-image.outputs.image }}
 
       - name: 🖥️ Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
           task-definition: ${{ steps.task-def.outputs.task-definition }}
-          service: ${{ secrets.ECS_SERVICE }}
+          service: ${{ secrets.CATS_ESC_SERVICE }}
           cluster: ${{ secrets.ECS_CLUSTER }}
           wait-for-service-stability: true
 
