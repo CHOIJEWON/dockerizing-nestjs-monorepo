@@ -9,13 +9,7 @@ export class AuthApiService {
   }
 
   getTest(): string {
-<<<<<<< Updated upstream
     return 'Hello Test Auth On Docker';
-=======
-<<<<<<< Updated upstream
-    return 'Hello Test!';
-=======
-    return 'Hello Test Auth On Docker123123';
   }
 
   getTestApi(): string {
@@ -24,7 +18,5 @@ export class AuthApiService {
 
   getHealth(): string {
     return 'OK';
->>>>>>> Stashed changes
->>>>>>> Stashed changes
   }
 }

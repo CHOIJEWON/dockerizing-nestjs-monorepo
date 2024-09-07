@@ -44,9 +44,9 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY .prod.env ./
 
 # PM2와 dotenv-cli 설치 (해당 과정의 의미가 있는지 알아봐야 함)
-RUN npm install -g dotenv-cli pm2
+RUN npm install -g dotenv-cli 
 
 # 포트 open (ECS에서 해당 port로 맵핑 안 하면 health check안 돼서 테스크 분할되어 생성됨)
 EXPOSE 3300
 
-CMD ["dotenv", "-e", ".prod.env", "pm2-runtime", "dist/apps/auth-api/main.js"]
+CMD ["dotenv", "-e", ".prod.env", "node", "dist/apps/auth-api/main.js"]
