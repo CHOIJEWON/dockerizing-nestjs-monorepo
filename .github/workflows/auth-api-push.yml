@@ -49,11 +49,15 @@ jobs:
           docker push $ECR_REGISTRY/$AUTH_IMAGE_NAME:$IMAGE_TAG
           echo "image=$ECR_REGISTRY/$AUTH_IMAGE_NAME:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
+      - name: 📁 Retrieve existing task definition
+        run: |
+          aws ecs describe-task-definition --task-definition ${{ secrets.AUTH_TASK_NAME }} --query 'taskDefinition' > task-definition.json
+
       - name: 🚀 Fill in the new image ID in the Amazon ECS task definition
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: ${{ secrets.AUTH_TASK_NAME }}
+          task-definition: task-definition.json
           container-name: ${{ secrets.AUTH_CONTAINER_NAME }}
           image: ${{ steps.build-image.outputs.image }}
 
