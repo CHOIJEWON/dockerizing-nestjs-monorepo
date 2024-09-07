@@ -9,7 +9,7 @@ export class AuthApiService {
   }
 
   getTest(): string {
-    return 'Hello Test Auth On Docker';
+    return 'Done CI / CD github action => ECR => ECS';
   }
 
   getTestApi(): string {
