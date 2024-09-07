@@ -9,7 +9,7 @@ export class AuthApiService {
   }
 
   getTest(): string {
-    return 'Done CI / CD github action => ECR => ECS !!!!!!!!';
+    return 'Done CI / CD github action => ECR => ECS @@';
   }
 
   getTestApi(): string {
