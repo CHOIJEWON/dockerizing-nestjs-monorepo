@@ -9,7 +9,7 @@ export class AuthApiService {
   }
 
   getTest(): string {
-    return 'Done CI / CD github action => ECR => ECS @@@@@@@';
+    return 'this commit only change auth api ?';
   }
 
   getTestApi(): string {
