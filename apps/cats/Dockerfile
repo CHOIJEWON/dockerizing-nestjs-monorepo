@@ -49,4 +49,4 @@ RUN npm install -g dotenv-cli
 # 포트 open (ECS에서 해당 port로 맵핑 안 하면 health check안 돼서 테스크 분할되어 생성됨)
 EXPOSE 3000
 
-CMD ["dotenv", "-e", ".prod.env", "node", "dist/apps/cats/main.js"]
+ENTRYPOINT ["dotenv", "-e", ".prod.env", "node", "dist/apps/cats/main.js"]
