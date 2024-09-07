@@ -7,7 +7,7 @@ export class AppService {
   }
 
   getTest(): string {
-    return 'cats-api successfully deploy';
+    return 'cats-api successfully deploy!!';
   }
 
   getHealth(): string {
