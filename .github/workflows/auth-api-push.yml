@@ -53,6 +53,10 @@ jobs:
         run: |
           aws ecs describe-task-definition --task-definition ${{ secrets.AUTH_TASK_NAME }} --query 'taskDefinition' > task-definition.json
 
+      - name: 🧹 Remove 'compatibilities' from task definition
+        run: |
+          jq 'del(.compatibilities)' task-definition.json > updated-task-definition.json
+
       - name: 🚀 Fill in the new image ID in the Amazon ECS task definition
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
