@@ -46,8 +46,8 @@ jobs:
           # be deployed to ECS.
           docker compose build $AUTH_IMAGE_NAME
           docker tag $AUTH_IMAGE_NAME:$DEFAULT_IMAGE_TAG $ECR_REGISTRY/$AUTH_IMAGE_NAME:$IMAGE_TAG
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+          docker push $ECR_REGISTRY/$AUTH_IMAGE_NAME:$IMAGE_TAG
+          echo "image=$ECR_REGISTRY/$AUTH_IMAGE_NAME:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
       - name: 🚀 Fill in the new image ID in the Amazon ECS task definition
         id: task-def
