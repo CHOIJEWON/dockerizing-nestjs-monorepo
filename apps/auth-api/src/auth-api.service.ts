@@ -9,7 +9,7 @@ export class AuthApiService {
   }
 
   getTest(): string {
-    return 'change auth-api at the same time cats-api';
+    return 'change auth-api at the same time cats-api!!!!!!!!!';
   }
 
   getTestApi(): string {
